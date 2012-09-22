@@ -114,6 +114,14 @@ void loop() {
       client.read(); client.read(); // pop off the "s="
       while (client.available()) {
         char c = client.read();
+        if (c == '%') {
+          char charcode[3];
+          charcode[0] = client.read();
+          charcode[1] = client.read();
+          charcode[2] = '\0';
+          c = strtol(charcode, NULL, 16);
+        }
+        if (c == '+') { c = ' '; }
         client.print(c);
         printer.print(c);
       }

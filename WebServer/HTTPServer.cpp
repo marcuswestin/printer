@@ -31,7 +31,7 @@ boolean HTTPRequest::read_url() {
   // For now 404 on anything other than "/".
   int len = client->readBytesUntil(' ', url, sizeof(url));
   if (len == 5) { ERROR(HTTP_REQUEST_URI_TOO_LARGE); }
-  url[len - 1] = '\0';
+  url[len] = '\0';
   return true;
 }
 

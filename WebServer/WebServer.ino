@@ -16,7 +16,7 @@ static char form[] = "<form method=POST action=/txt>"
 "</form>";
 
 EthernetServer server(80);
-Printer printer(
+SoftwareSerial printer(
   2, // RX - green wire
   3  // TX - yellow wire
 );
@@ -24,8 +24,7 @@ Printer printer(
 void setup() {
   Ethernet.begin(mac, ip);
   server.begin();
-  printer.begin(255);
-  /*printer.begin(19200);
+  printer.begin(19200);
   printer.write(27); printer.write(64); // reset
   printer.write(27); printer.write(61); printer.write(1); // online
 
@@ -39,7 +38,7 @@ void setup() {
 
   printer.write(18); printer.write(35); // DC2 # (print density)
   printer.write((printBreakTime << 5) | printDensity);
-*/}
+}
 
 
 typedef struct {
@@ -60,7 +59,7 @@ typedef struct {
   uint32_t importantcolours;
 } __attribute__ ((packed)) bmp_infoheader;
 
-int print_bmp(Stream *bmp, Printer *printer) {
+int print_bmp(Stream *bmp, Stream *printer) {
   if (bmp->read() != 'B' || bmp->read() != 'M') { return -1; }
 
   bmp_header header;
@@ -74,7 +73,7 @@ int print_bmp(Stream *bmp, Printer *printer) {
   // skip over the colour index
   for (int i = 0; i < 4*infoheader.ncolors; i++) { bmp->read(); }
 
-  /*if (infoheader.width != 384) { return -3; }
+  if (infoheader.width != 384) { return -3; }
   for (int i = 0; i < infoheader.height; i += 255) {
     int height = min(255, infoheader.height - i);
     printer->write(18); printer->write(42);
@@ -82,8 +81,7 @@ int print_bmp(Stream *bmp, Printer *printer) {
     for (int j = 0; j < (height * infoheader.width)/8; j++) {
       printer->write(~bmp->read());
     }
-  }*/
-  printer->printBitmap(infoheader.width, infoheader.height, bmp);
+  }
 
   return 0;
 }

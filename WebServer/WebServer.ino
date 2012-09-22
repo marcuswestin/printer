@@ -9,7 +9,7 @@ IPAddress ip(10,0,0,10);
 
 
 static char doctype[] = "<!doctype html>";
-static char form[] = "<form method=POST>"
+static char form[] = "<form method=POST action=/txt>"
   "<textarea name=s></textarea>"
   "<input type=submit value=Print!>"
 "</form>";
@@ -105,12 +105,9 @@ void loop() {
     client.println();
     client.println(doctype);
 
-    if (request.method == HTTP_GET) {
+    if (request.method == HTTP_GET && strcmp("/", request.url)) {
       client.println(form);
-    } else if (request.method == HTTP_POST) {
-/*      HTTPEntity entity(&request);
-      print_bmp(&entity, &printer);
-*/
+    } else if (request.method == HTTP_POST && strcmp("/txt", request.url)) {
       // Print plain text input
       client.println("Printing:");
       client.println("<pre>");
@@ -122,7 +119,10 @@ void loop() {
       }
       client.println("</pre>");
       printer.print('\n');
-
+      client.println("<a href=/>Again!</a>");
+    } else if (request.method == HTTP_POST && strcmp("/img", request.url)) {
+      HTTPEntity entity(&request);
+      print_bmp(&entity, &printer);
     }
 
     client.stop();

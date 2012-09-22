@@ -29,8 +29,10 @@ boolean HTTPRequest::read_method() {
 
 boolean HTTPRequest::read_url() {
   // For now 404 on anything other than "/".
-  if (client->read() == '/' && client->read() == ' ') { return true; }
-  ERROR(HTTP_NOT_FOUND)
+  int len = client->readBytesUntil(' ', url, sizeof(url));
+  if (len == 5) { ERROR(HTTP_REQUEST_URI_TOO_LARGE); }
+  url[len - 1] = '\0';
+  return true;
 }
 
 boolean HTTPRequest::read_protocol() {

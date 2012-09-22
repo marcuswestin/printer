@@ -36,6 +36,7 @@ class HTTPRequest {
   public:
     EthernetClient *client;
     HTTPMethod method;
+    char url[5];
     int content_length;
     HTTPResponseCode error_code;
 

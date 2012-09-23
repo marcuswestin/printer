@@ -2,7 +2,7 @@
 
 #import <string.h>
 
-#define STR_EQ(s) len == sizeof(s) - 1 && strncmp(str, s, sizeof(s) - 1) == 0
+#define STR_EQ(s) len == sizeof(s) - 1 && strnicmp(str, s, sizeof(s) - 1) == 0
 #define ERROR(code) error_code = code; return false;
 
 static char CRLF[] = "\r\n";

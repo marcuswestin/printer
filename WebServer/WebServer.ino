@@ -5,8 +5,9 @@
 #include "HTTPServer.h"
 #include "Printer.h"
 
-byte mac[] = { 0x90, 0xA2, 0xDA, 0x0A, 0x00, 0x54 };
-IPAddress ip(10,0,0,10);
+//byte mac[] = { 0x90, 0xA2, 0xDA, 0x0A, 0x00, 0x54 }; IPAddress ip(10,0,0,10); // Paul
+byte mac[] = { 0x90, 0xA2, 0xDA, 0x0D, 0x19, 0x92 }; IPAddress ip(10,0,0,11); // Marcus
+
 
 
 static char doctype[] = "<!doctype html>";
